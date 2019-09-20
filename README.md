@@ -6,8 +6,11 @@ This scenario illustrates how to deploy a Virtual Private Cloud (VPC), deploy an
 The example shown in this scenario includes a Node.js application which saves records to a MongoDB. The database will be deployed using a private endpoint so that communication is through the IBM Cloud private network (no Internet). To connect to IBM Cloud services over a private network, you must have access to classic infrastructure and enable virtual routing and forwarding (VRF) and connectivity to service endpoints for your account. Then, you can start creating services that support service endpoints for a private network connection.
 
 For more information, please refer to the following docmentation:
+
 [Setting up service endpoints on IBM Cloud](https://cloud.ibm.com/docs/resources?topic=resources-private-network-endpoints)
+
 [Service endpoints available for IBM Cloud VPC](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-on-classic-service-endpoints-available-for-ibm-cloud-vpc)
+
 [Databases for Mongo - Service Endpoints Integration](https://cloud.ibm.com/docs/services/databases-for-mongodb?topic=cloud-databases-service-endpoints)
 
 After completing the scenario you will be able to:
@@ -25,6 +28,7 @@ After completing the scenario you will be able to:
 1. An IBM Cloud Account
 2. Authority to create VPC resources and IBM Cloud Object Storage services in the IBM Cloud Account
 3. ssh-keygen installed locally. [SSH Keys](https://cloud.ibm.com/docs/vpc-on-classic-vsi?topic=vpc-on-classic-vsi-ssh-keys#ssh-keys)
+4. An account with [Virtual Routing and Forwarding](https://cloud.ibm.com/docs/account?topic=account-vrf-service-endpoint#vrf) (VRF) enabled.
 
 ### Assumptions
 1. The reader has a basic knowledge of Linux commands and VI editor.

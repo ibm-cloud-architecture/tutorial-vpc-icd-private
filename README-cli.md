@@ -98,25 +98,26 @@ An SSH Key is required to access Virtual Servers in a VPC. To generate a new SSH
 
     **Command**
     ```
-    ibmcloud is vpc-create vpc-monitor-demo --resource-group-name <your resource group>
-                           <vpc name>       <Optional Resource Group>
+    ibmcloud is vpc-create vpc-1 --resource-group-id d0bd962c2eea48d8b18b5d5e82e2fc60
+                       <vpc name>       <Optional Resource Group ID>
 
+    
     Parameters:
     vpc name - The name for the VPC
-    Resource Group - Optional parameter used to specify which resource group to create the VPC in
+    Resource Group ID - Optional parameter used to specify which resource group to create the VPC in
     ```
     **Output**
     ```
-    Creating vpc vpc-monitor-demo in resource group <your resource group> under account IBM - Mac's Org as user <your IBM Cloud ID>...
-                                
-    ID                       4f81711c-1cf3-4ee6-aff4-2af1f0bc2794   
-    Name                     vpc-monitor-demo   
-    Default                  no   
-    Default Network ACL      allow-all-network-acl-4f81711c-1cf3-4ee6-aff4-2af1f0bc2794(b0308e7d-03cc-445f-9725-cc1e2503a605)   
-    Default Security Group   -   
-    Resource Group           (2f3e837a095943de958accf8ccb9bc19)   
-    Created                  4 seconds ago   
-    Status                   available   
+    Creating vpc vpc-1 in resource group d0bd962c2eea48d8b18b5d5e82e2fc60 under account Phillip Trent's Account as user msalas@us.ibm.com...
+
+    ID                       4e557ffd-e34f-4ded-8215-3149817643f8
+    Name                     vpc-1
+    Classic access           no
+    Default network ACL      allow-all-network-acl-4e557ffd-e34f-4ded-8215-3149817643f8(f2faed50-4c32-4075-b7ea-4406e71ebbc0)
+    Default security group   seminar-blazing-thank-primal-yearning(2d364f0a-a870-42c3-a554-000001997366)
+    Resource group           d0bd962c2eea48d8b18b5d5e82e2fc60
+    Created                  2019-09-20T15:11:17-04:00
+    Status                   available
     ```
     - [Command Documentation](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-infrastructure-cli-plugin-vpc-reference#vpc-create)
     - If you need to create a Resource Group, follow [these instructions](https://console.bluemix.net/docs/resources/resourcegroups.html#creating-a-resource-group)
@@ -126,32 +127,30 @@ An SSH Key is required to access Virtual Servers in a VPC. To generate a new SSH
 
     **Command**
     ```
-    ibmcloud is subnet-create monitor-subnet 4f81711c-1cf3-4ee6-aff4-2af1f0bc2794 us-south-1 --ipv4-cidr-block 10.240.10.0/24
+    ibmcloud is subnet-create subnet1 4e557ffd-e34f-4ded-8215-3149817643f8 --zone us-south-1 --ipv4-cidr-block 10.240.0.0/24
                               <subnet name>  <VPC ID>                             <Zone>     <IPV4 Range>
 
     Parameters:
     Subnet Name - The name to give the new subnet
-    VPC ID - The ID of the VPC the Subnet is created in
-    Zone -  The Zone to create the Subnet in
+    VPC ID - The ID of the VPC created in the previous step
+    Zone -  The IBM Cloud zone to create the Subnet in
     IPV4 Range - The block of IPV4 addresses that can be used in the subnet
     ```
     **Output**
     ```
-    Creating Subnet monitor-subnet under account IBM - Mac's Org as user <Your IBM Cloud ID>...
-                        
-    ID               d91dea76-b4fd-4649-8226-e7d9c2d616c6   
-    Name             monitor-subnet   
-    IPv*             ipv4   
-    IPv4 CIDR        10.240.10.0/24   
-    IPv6 CIDR        -   
-    Addr available   251   
-    Addr Total       256   
-    ACL              allow-all-network-acl-4f81711c-1cf3-4ee6-aff4-2af1f0bc2794(b0308e7d-03cc-445f-9725-cc1e2503a605)   
-    Gateway          -   
-    Created          1 second ago   
-    Status           pending   
-    Zone             us-south-1   
-    VPC              vpc-monitor-demo(4f81711c-1cf3-4ee6-aff4-2af1f0bc2794)
+    Creating subnet subnet1 under account Phillip Trent's Account as user msalas@us.ibm.com...
+
+    ID                  b00b8899-10e4-45cf-a5ce-f101e055d58a
+    Name                subnet1
+    IPv4 CIDR           10.240.0.0/24
+    Address available   251
+    Address total       256
+    ACL                 allow-all-network-acl-4e557ffd-e34f-4ded-8215-3149817643f8(f2faed50-4c32-4075-b7ea-4406e71ebbc0)
+    Public Gateway      -
+    Created             2019-09-20T17:49:36-04:00
+    Status              pending
+    Zone                us-south-1
+    VPC                 vpc-1(4e557ffd-e34f-4ded-8215-3149817643f8)
     ```
     - [Command Documentation](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-infrastructure-cli-plugin-vpc-reference#subnet-create)
     - [Finding a Zone](#appendix-1---finding-a-zone) in the Appendix for more info)
@@ -160,39 +159,40 @@ An SSH Key is required to access Virtual Servers in a VPC. To generate a new SSH
 
     **Command**
     ```
-    ibmcloud is instance-create vpc-monitor-app 4f81711c-1cf3-4ee6-aff4-2af1f0bc2794 us-south-1 c-2x4     d91dea76-b4fd-4649-8226-e7d9c2d616c6 1000            --image-id 7eb4e35b-4257-56f8-d7da-326d85452591 --key-ids 636f6d70-0000-0001-0000-000000142747
-                                <name>          <VPC ID>                             <Zone>     <Profile> <Subnet ID>                          <Network Speed> <Image ID>                                      <SSH Key ID>
+    ibmcloud is instance-create vsi-1 4e557ffd-e34f-4ded-8215-3149817643f8 us-south-1 cc1-2x4 b00b8899-10e4-45cf-a5ce-f101e055d58a --image-id 7eb4e35b-4257-56f8-d7da-326d85452591 --key-ids 636f6d70-0000-0001-0000-000000142747
+                                <name>          <VPC ID>                     <Zone>     <Profile> <Subnet ID>                         <Image ID>                                      <SSH Key ID>
     
     Parameters:
     Name - The name of the new Virtual Server
-    VPC ID - The ID of the VPC to create the instance in
+    VPC ID - The ID of the VPC created previously.
     Zone - The Zone to create the Virtual Server in (see [Finding a Zone](Appendix 1 - Finding a Zone) in the Appendix for more info)
-    Subnet ID - The ID of the Subnet to create the instance in
-    Network Speed - The speed of the network (100 or 1000)
+    Subnet ID - The ID of the Subnet created previously.
     Image ID - The ID of the Image to use in the new Virtual Server
-    SSH Key ID - The ID of the SSH Key
+    SSH Key ID - The ID of the SSH Key created previously.
     ```
     **Output**
     ```
-    Creating instance vpc-monitor-app under account IBM - Mac's Org as user <Your IBM Cloud ID>...
-                        
-    ID                e72f6bfe-4271-4731-bedd-90f438cb8d6a   
-    Name              vpc-monitor-app   
-    Profile           c-2x4   
-    CPU Arch          amd64   
-    CPU Cores         2   
-    CPU Frequency     2000   
-    Memory            4   
-    Primary Intf      primary(2aa29acc-4241-4b28-8377-c8c57fc9b538)   
-    Primary Address   10.240.10.12   
-    Image             ubuntu-16.04-amd64(7eb4e35b-4257-56f8-d7da-326d85452591)   
-    Status            pending   
-    Created           5 seconds ago   
-    VPC               vpc-monitor-demo(4f81711c-1cf3-4ee6-aff4-2af1f0bc2794)   
-    Zone              us-south-1   
+    Creating instance vsi-1 in resource group vpc under account Phillip Trent's Account as user msalas@us.ibm.com...
+
+    ID                       fd884586-97c0-4b14-ac7c-0c32af39e4d8
+    Name                     vsi-1
+    Status                   pending
+    Profile                  cc1-2x4
+    vCPU architecture        amd64
+    vCPUs                    2
+    Memory                   4
+    Image                    ubuntu-16.04-amd64(7eb4e35b-4257-56f8-d7da-326d85452591)
+    VPC                      vpc-1(4e557ffd-e34f-4ded-8215-3149817643f8)
+    Zone                     us-south-1
+    Resource group           d0bd962c2eea48d8b18b5d5e82e2fc60
+    Created                  2019-09-20T18:04:19.726-04:00
+
+    Primary interface        primary(0b68b740-09fb-416f-ba38-f413e327ca1f)
+    Primary address          10.240.0.8
+    Attached Floating IP:    No Floating IP attached
     ```
     - [Command Documentation](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-infrastructure-cli-plugin-vpc-reference#instance-create)
-    - The Key ID is obtained from the output of the ibmcloud is key-create command above
+    - The `Key Oject ID` is obtained from the output of the `ibmcloud is key-create` command executing on Section 2.
     - To see a list of available Image IDs, enter the command
       `ibmcloud is images` [(Reference)](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-infrastructure-cli-plugin-vpc-reference#images-cli)
     - To see a list of available Profiles, enter the command
@@ -202,7 +202,7 @@ An SSH Key is required to access Virtual Servers in a VPC. To generate a new SSH
 
     **Command**
     ```
-    ibmcloud is floating-ip-reserve vpc-monitor-eth0 --zone us-south-1
+    ibmcloud is floating-ip-reserve fip-1 --zone us-south-1
                                     <name>           <zone>
 
     Parameters:
@@ -211,17 +211,18 @@ An SSH Key is required to access Virtual Servers in a VPC. To generate a new SSH
     ```
     **Output**
     ```
-    Creating floating IP vpc-monitor-eth0 under account IBM - Mac's Org as user <Your IBM Cloud ID>...
-                 
-    ID            e1d697f0-3456-4987-97f6-de2d4f4b1159   
-    Address       169.61.244.21   
-    Name          vpc-monitor-eth0   
-    Target        -   
-    Target Type   -   
-    Target IP        
-    Created       now   
-    Status        pending   
-    Zone          us-south-1  
+    Creating floating IP fip-1 in resource group vpc under account Phillip Trent's Account as user msalas@us.ibm.com...
+
+    ID               3468c995-8492-41ba-a3b6-11d22d07642a
+    Address          169.61.244.97
+    Name             fip-1
+    Target           -
+    Target type      -
+    Target IP
+    Created          2019-09-20T18:08:47-04:00
+    Status           pending
+    Zone             us-south-1
+    Resource group   -
     ```
     - [Command Documentation](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-infrastructure-cli-plugin-vpc-reference#floating-ip-reserve)
 
@@ -229,28 +230,76 @@ An SSH Key is required to access Virtual Servers in a VPC. To generate a new SSH
 
     **Command**
     ```
-    ibmcloud is instance-network-interface-floating-ip-add e72f6bfe-4271-4731-bedd-90f438cb8d6a 2aa29acc-4241-4b28-8377-c8c57fc9b538 e1d697f0-3456-4987-97f6-de2d4f4b1159
+    ibmcloud is instance-network-interface-floating-ip-add fd884586-97c0-4b14-ac7c-0c32af39e4d8 0b68b740-09fb-416f-ba38-f413e327ca1f 3468c995-8492-41ba-a3b6-11d22d07642a
                                                            <Virtual Server Instance ID>         <NIC ID>                             <Floating IP ID>
 
     Parameters:
-    Virtual Server Instance ID - The ID of the Virtual Server instance the Floating IP will be assigned to
+    Virtual Server Instance ID - The ID of the Virtual Server instance created previously.
     NIC ID - The ID of the Primary Network Interface card on the Virtual Server (See 'Finding the NIC ID' below)
-    Floating IP ID - The ID of the Floating IP (Found in the output of the 'floating-ip-reserve' command in Step 4 above)
+    Floating IP ID - The ID of the Floating IP created previously.
     ```
     **Output**
     ```
-    Creating floatingip e1d697f0-3456-4987-97f6-de2d4f4b1159 for instance e72f6bfe-4271-4731-bedd-90f438cb8d6a under account IBM - Mac's Org as user <Your IBM Cloud ID>...
-                    
-    ID            e1d697f0-3456-4987-97f6-de2d4f4b1159   
-    Address       169.61.244.21   
-    Name          vpc-monitor-eth0   
-    Target        primary(2aa29acc-.)   
-    Target Type   intf   
-    Target IP     10.240.10.12   
-    Created       2 minutes ago   
-    Status        available   
-    Zone          us-south-1   
-   ```
+    Creating floatingip 3468c995-8492-41ba-a3b6-11d22d07642a for instance fd884586-97c0-4b14-ac7c-0c32af39e4d8 under account Phillip Trent's Account as user msalas@us.ibm.com...
+
+    ID               3468c995-8492-41ba-a3b6-11d22d07642a
+    Address          169.61.244.97
+    Name             fip-1
+    Target           primary(0b68b740-09fb-416f-ba38-f413e327ca1f)
+    Target type      network_interface (10.240.0.8)
+    Target IP        10.240.0.8
+    Created          2019-09-20T18:08:47-04:00
+    Status           available
+    Zone             us-south-1
+    Resource group   -
+    ```
+   - [Command Documentation](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-infrastructure-cli-plugin-vpc-reference#instance-network-interface-floating-ip-add)
+   - See [Finding the NIC ID](#appendix-2---finding-the-nic-id) in the Appendix for help identifying the correct NIC ID to use.
+
+6. Enable communitcation through ports 22 and 8080.
+
+SSH access to the VSI is through port 22. The application used to access the MongoDB uses port 8080. Open communication for this port by updating the Inbound Rule of the VPC's Security Group.
+
+    **Port 8080 Command**
+    ```
+    ibmcloud is security-group-rule-add 2d364f0a-a870-42c3-a554-000001997366 inbound tcp --port-max 8080 --port-min 8080
+                                                  <Security Group ID>        <Dir>   <Proto> <Max Port>       <Min Port>
+
+    Parameters:
+    Security Group ID - The Security Group ID of the VPC created previously.
+    Dir - Direction of traffic
+    Proto - Protocol
+    Max / Min Port - Port
+    ```
+    **Output**
+    ```
+    Creating rule for security group 2d364f0a-a870-42c3-a554-000001997366 under account Phillip Trent's Account as user msalas@us.ibm.com...
+
+    ID                     b597cff2-38e8-4e6e-999d-000006199280
+    Direction              inbound
+    IP version             ipv4
+    Protocol               tcp
+    Min destination port   8080
+    Max destination port   8080
+    Remote                 -
+    ```
+
+    **Port 22 Command**
+    ```
+    ibmcloud is security-group-rule-add 2d364f0a-a870-42c3-a554-000001997366 inbound tcp --port-max 22 --port-min 22
+    ```
+    **Output**
+    ```
+    Creating rule for security group 2d364f0a-a870-42c3-a554-000001997366 under account Phillip Trent's Account as user msalas@us.ibm.com...
+
+    ID                     b597cff2-38e8-4e6e-999d-000006199192
+    Direction              inbound
+    IP version             ipv4
+    Protocol               tcp
+    Min destination port   22
+    Max destination port   22
+    Remote                 -
+    ```
    - [Command Documentation](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-infrastructure-cli-plugin-vpc-reference#instance-network-interface-floating-ip-add)
    - See [Finding the NIC ID](#appendix-2---finding-the-nic-id) in the Appendix for help identifying the correct NIC ID to use.
 
