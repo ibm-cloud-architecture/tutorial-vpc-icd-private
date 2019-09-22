@@ -53,14 +53,17 @@ Once `Databases for MongoDB` has been created, we will use some of the steps not
 ### Access the VPC's Virtual Server to install a Node.js application and configure it to access the MongoDB
 
 1. Issue the following command to access the Virtual Server from your workstation: 
-   `ssh root@*floating ip*`
+   
+   `ssh root@*floating ip*`  
     - The *floating ip* is the IP address assigned to the VPC's VSI in the previous section.
 
    If you need to specify the SSH Key file, use the following command:
+
    `ssh -i *ssh key file* root@*floating ip*`
     - The *ssh key file* is the full path and filename of the SSH Key file created in Section #2 above.
 
 2. Update the local package repository. Issue the command 
+
    `apt-get update`
 3. Install the LTS version of [Node.js](https://nodejs.org/en/) (which includes NPM) by issuing the following commands:
     - `curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -`

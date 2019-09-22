@@ -258,9 +258,9 @@ An SSH Key is required to access Virtual Servers in a VPC. To generate a new SSH
 
 6. Enable communitcation through ports 22 and 8080.
 
-SSH access to the VSI is through port 22. The application used to access the MongoDB uses port 8080. Open communication for this port by updating the Inbound Rule of the VPC's Security Group.
+SSH access to the VSI is through port 22. The application used to access the MongoDB uses port 8080. Open communication for these ports by updating the Inbound Rules of the VPC's Security Group.
 
-    **Port 8080 Command**
+**Port 8080 Command**
     ```
     ibmcloud is security-group-rule-add 2d364f0a-a870-42c3-a554-000001997366 inbound tcp --port-max 8080 --port-min 8080
                                                   <Security Group ID>        <Dir>   <Proto> <Max Port>       <Min Port>
@@ -271,7 +271,7 @@ SSH access to the VSI is through port 22. The application used to access the Mon
     Proto - Protocol
     Max / Min Port - Port
     ```
-    **Output**
+   **Output**
     ```
     Creating rule for security group 2d364f0a-a870-42c3-a554-000001997366 under account Phillip Trent's Account as user msalas@us.ibm.com...
 
@@ -283,8 +283,7 @@ SSH access to the VSI is through port 22. The application used to access the Mon
     Max destination port   8080
     Remote                 -
     ```
-
-    **Port 22 Command**
+   **Port 22 Command**
     ```
     ibmcloud is security-group-rule-add 2d364f0a-a870-42c3-a554-000001997366 inbound tcp --port-max 22 --port-min 22
     ```

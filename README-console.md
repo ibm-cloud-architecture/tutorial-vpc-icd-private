@@ -42,7 +42,7 @@ After creating the SSH Key you will have two new files called 'vpcCompute' and '
 
 ## Section 4. Enable communitcation through port 8080.
 
-The application used to access the MongoDB uses port 8080. Open communication for this port by updating the Inbound Rule of the VPC's Security Group.
+The application used to access the MongoDB uses port 8080. Open communication for this port by updating the Inbound Rule of the VPC's Security Group. (When using UI, the VPC default security group is setup for ping and SSH access).
 
 1. Select VPCs on the VPC dashboard and select the VPC created in Section 2.
 2. Select the 'Default Security Group' for the VPC.
