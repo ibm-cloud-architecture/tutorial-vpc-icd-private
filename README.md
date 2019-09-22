@@ -103,7 +103,10 @@ Replace `INSERT YOUR CREDENTIALS HERE` with the entire MongoDB credential you cr
     - `http://<floating_ip>:8080/`
 
 11. Test the application by adding a few records to the database.
-  
+
+![Hello World MongoDB](Hello-World-MongoDB.png)
+
+
 ## Links
 - [IBM Cloud VPC](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-on-classic-getting-started)
 - [IBM Cloud Databases for MongoDB](https://cloud.ibm.com/docs/services/databases-for-mongodb?topic=databases-for-mongodb-getting-started)
